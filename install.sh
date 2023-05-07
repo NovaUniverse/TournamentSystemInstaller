@@ -74,11 +74,9 @@ echo "WS_API_CLIENT_KEY=\"$(cat /proc/sys/kernel/random/uuid)\"" >> .env
 echo "OFFLINE_MODE=\"false\"" >> .env
 echo ".env file created"
 
-echo "---------------------------------------------"
-echo "Starting containers to generate initial files"
+echo "Pulling images"
+docker compose pull
+echo "Starting containers"
 docker compose up -d
-echo "Sleeping for 1 minute to allow full setup to complete"
-sleep 60
-docker compose down
-echo "---------------------------------------------"
-echo "Make sure to edit the config files in the data directory before using the tournament system"
+echo "Attaching to logs"
+docker compose logs -f
