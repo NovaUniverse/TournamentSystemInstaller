@@ -40,26 +40,8 @@ else
     echo "Docker is already installed"
 fi
 
-REGISTRY_URL="primary.backend.docker.novauniverse.net:8083"
-
-# Check if the insecure registry is already added
-if grep -q "$REGISTRY_URL" /etc/docker/daemon.json; then
-    echo "Insecure registry already added"
-else
-    # Add the insecure registry
-    echo "Any custom config in /etc/docker/daemon.json will be overwriten. If you made any custom config in there make sure to back it up and restore it later"
-    echo "Press enter to write to /etc/docker/daemon.json"
-    read
-    echo "{\"insecure-registries\": [\"$REGISTRY_URL\"]}" > /etc/docker/daemon.json
-    echo "Insecure registry added"
-    
-    echo "Docker needs to be restarted. Press Enter to restart the docker daemon and continue"
-    read
-    systemctl restart docker
-fi
-
 echo "Please enter the credentials provided by the novauniverse staff for our private docker registry"
-if ! docker login $REGISTRY_URL; then
+if ! docker login registry1.novauniverse.net; then
     echo "Login failed, stopping script."
     exit 1
 fi
